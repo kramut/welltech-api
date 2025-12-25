@@ -127,8 +127,10 @@ export const analyticsService = {
     // Raggruppa per giorno
     const revenueByDay: Record<string, number> = {};
     recentEarnings.forEach((earning: { createdAt: Date; revenue: number | string }) => {
-      const date = earning.createdAt.toISOString().split('T')[0];
-      revenueByDay[date] = (revenueByDay[date] || 0) + Number(earning.revenue);
+      const date = earning.createdAt.toISOString().split('T')[0] || '';
+      if (date) {
+        revenueByDay[date] = (revenueByDay[date] || 0) + Number(earning.revenue);
+      }
     });
 
     const revenueTimeline = Object.entries(revenueByDay)
@@ -142,7 +144,7 @@ export const analyticsService = {
       overview: {
         products: {
           total: totalProducts,
-          byCategory: productsByCategory.map((item) => ({
+          byCategory: productsByCategory.map((item: { category: string; _count: { id: number } }) => ({
             category: item.category,
             count: item._count.id,
           })),
