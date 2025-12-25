@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellTech API Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .endpoint-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .endpoint-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .endpoint-group {
+            margin-bottom: 20px;
+        }
+        
+        .endpoint-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+        
+        .get { background: #28a745; color: white; }
+        .post { background: #007bff; color: white; }
+        .put { background: #ffc107; color: black; }
+        .delete { background: #dc3545; color: white; }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .description {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        
+        .test-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .test-button:hover {
+            background: #5568d3;
+        }
+        
+        .response {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .response pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+        }
+        
+        .error {
+            color: #dc3545;
+        }
+        
+        .success {
+            color: #28a745;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box strong {
+            color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 WellTech API Tester</h1>
+        
+        <div class="info-box">
+            <strong>ℹ️ Nota:</strong> Assicurati che il server sia avviato con <code>npm run dev</code> sulla porta 5000.
+            Per testare completamente le API, configura il database PostgreSQL e esegui le migrazioni Prisma.
+        </div>
+        
+        <!-- Products -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">📦 Products</div>
+            
+            <div class="endpoint-group">
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/products</span>
+                    <div class="description">Ottieni tutti i prodotti</div>
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/products')">Test</button>
+                </div>
+                
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/products/:id</span>
+                    <div class="description">Ottieni un prodotto per ID</div>
+                    <input type="number" id="product-id" placeholder="ID prodotto" style="margin-top: 10px; padding: 8px; width: 150px; border: 1px solid #ddd; border-radius: 4px;">
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/products/' + document.getElementById('product-id').value)">Test</button>
+                </div>
+                
+                <div class="endpoint-item">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/products</span>
+                    <div class="description">Crea un nuovo prodotto</div>
+                    <button class="test-button" onclick="testCreateProduct()">Test (Crea prodotto di esempio)</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Articles -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">📝 Articles</div>
+            
+            <div class="endpoint-group">
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/articles</span>
+                    <div class="description">Ottieni tutti gli articoli</div>
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/articles')">Test</button>
+                </div>
+                
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/articles/slug/:slug</span>
+                    <div class="description">Ottieni un articolo per slug</div>
+                    <input type="text" id="article-slug" placeholder="slug-articolo" style="margin-top: 10px; padding: 8px; width: 200px; border: 1px solid #ddd; border-radius: 4px;">
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/articles/slug/' + document.getElementById('article-slug').value)">Test</button>
+                </div>
+                
+                <div class="endpoint-item">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/api/articles</span>
+                    <div class="description">Crea un nuovo articolo</div>
+                    <button class="test-button" onclick="testCreateArticle()">Test (Crea articolo di esempio)</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Videos -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">🎥 Videos</div>
+            
+            <div class="endpoint-group">
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/videos</span>
+                    <div class="description">Ottieni tutti i video</div>
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/videos')">Test</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Affiliate Earnings -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">💰 Affiliate Earnings</div>
+            
+            <div class="endpoint-group">
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/affiliate-earnings/stats</span>
+                    <div class="description">Ottieni statistiche aggregate</div>
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/affiliate-earnings/stats')">Test</button>
+                </div>
+                
+                <div class="endpoint-item">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/api/affiliate-earnings</span>
+                    <div class="description">Ottieni tutti i guadagni</div>
+                    <button class="test-button" onclick="testEndpoint('GET', '/api/affiliate-earnings')">Test</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Response Area -->
+        <div class="endpoint-section">
+            <div class="endpoint-title">📤 Response</div>
+            <div id="response" class="response">
+                <p style="color: #999;">Clicca su un pulsante "Test" per vedere la risposta qui...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        async function testEndpoint(method, path, body = null) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = '<p>Caricamento...</p>';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(API_BASE + path, options);
+                const data = await response.json();
+                
+                const statusClass = response.ok ? 'success' : 'error';
+                responseDiv.innerHTML = `
+                    <div class="${statusClass}">
+                        <strong>Status:</strong> ${response.status} ${response.statusText}<br>
+                        <strong>Method:</strong> ${method}<br>
+                        <strong>Path:</strong> ${path}
+                    </div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                responseDiv.innerHTML = `
+                    <div class="error">
+                        <strong>Errore:</strong> ${error.message}<br>
+                        <strong>Assicurati che il server sia avviato su ${API_BASE}</strong>
+                    </div>
+                `;
+            }
+        }
+        
+        function testCreateProduct() {
+            const product = {
+                name: "Prodotto di Test",
+                category: "Elettronica",
+                description: "Questo è un prodotto di test",
+                price: 99.99,
+                affiliateLink: "https://example.com/product",
+                affiliateProgram: "Amazon",
+                commissionPercentage: 5.5,
+                imageUrl: "https://example.com/image.jpg"
+            };
+            testEndpoint('POST', '/api/products', product);
+        }
+        
+        function testCreateArticle() {
+            const article = {
+                title: "Articolo di Test",
+                slug: "articolo-di-test-" + Date.now(),
+                category: "Tech",
+                content: "Questo è il contenuto dell'articolo di test...",
+                seoMetaTitle: "Articolo di Test - SEO Title",
+                seoMetaDescription: "Descrizione SEO per l'articolo di test",
+                productIds: []
+            };
+            testEndpoint('POST', '/api/articles', article);
+        }
+    </script>
+</body>
+</html>
+
+
+
+

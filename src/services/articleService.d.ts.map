@@ -1,0 +1,1 @@
+{"version":3,"file":"articleService.d.ts","sourceRoot":"","sources":["articleService.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,kBAAkB,EAAE,kBAAkB,EAAE,MAAM,UAAU,CAAC;AAElE,eAAO,MAAM,cAAc;;gBAYP,MAAM;oBASF,MAAM;4BASE,MAAM;;uBA6BX,MAAM;iBAWZ,kBAAkB;eAgBpB,MAAM,QAAQ,kBAAkB;eAiBhC,MAAM;CAKxB,CAAC"}

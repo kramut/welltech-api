@@ -1,0 +1,1 @@
+{"version":3,"file":"affiliateEarningController.d.ts","sourceRoot":"","sources":["affiliateEarningController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAI5C,eAAO,MAAM,0BAA0B;gBACnB,OAAO,OAAO,QAAQ;iBAoBrB,OAAO,OAAO,QAAQ;kBAmBrB,OAAO,OAAO,QAAQ;gBAUxB,OAAO,OAAO,QAAQ;gBAkBtB,OAAO,OAAO,QAAQ;gBAgBtB,OAAO,OAAO,QAAQ;CAczC,CAAC"}

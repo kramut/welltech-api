@@ -1,0 +1,1 @@
+{"version":3,"file":"articleController.d.ts","sourceRoot":"","sources":["articleController.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAI5C,eAAO,MAAM,iBAAiB;gBACV,OAAO,OAAO,QAAQ;iBAsBrB,OAAO,OAAO,QAAQ;mBAmBpB,OAAO,OAAO,QAAQ;gBAmBzB,OAAO,OAAO,QAAQ;gBAqBtB,OAAO,OAAO,QAAQ;gBAgBtB,OAAO,OAAO,QAAQ;CAczC,CAAC"}
