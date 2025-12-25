@@ -66,6 +66,13 @@ Il server sarà disponibile su `http://localhost:5000`
 - `PUT /api/affiliate-earnings/:id` - Aggiorna un guadagno
 - `DELETE /api/affiliate-earnings/:id` - Elimina un guadagno
 
+### Workflows
+
+- `GET /api/workflows/trends` - Lista tutti i trend (query: `?limit=...`)
+- `GET /api/workflows/trends/category/:category` - Lista trend per categoria
+- `POST /api/workflows/trends/analyze` - Analizza e salva trend (bulk)
+- `POST /api/workflows/trends` - Crea singolo trend
+
 ## Struttura del Progetto
 
 ```
@@ -84,7 +91,3 @@ src/
 - Prisma ORM
 - PostgreSQL
 - TypeScript
-
-
-
-
