@@ -168,25 +168,51 @@ console.log('📋 Loading workflows routes...');
 try {
   app.use('/api/workflows', workflowsRouter);
   console.log('✅ Workflows routes loaded successfully');
-  
-  // Registra route ClickBank direttamente come fallback
-  console.log('📋 Registering ClickBank routes directly...');
-  app.get('/api/workflows/clickbank', (req: Request, res: Response) => {
-    res.json({ 
-      message: 'ClickBank API endpoints are available',
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      endpoints: {
-        test: '/api/workflows/clickbank/test',
-        endpoints: '/api/workflows/clickbank/endpoints',
-        orders: '/api/workflows/clickbank/orders',
-        stats: '/api/workflows/clickbank/stats'
-      }
-    });
-  });
-  console.log('✅ ClickBank direct route registered');
 } catch (error) {
   console.error('❌ Error loading workflows routes:', error);
+}
+
+// ClickBank routes - registrate direttamente in index.ts per evitare problemi di caricamento
+console.log('📋 Registering ClickBank routes directly in index.ts...');
+app.get('/api/workflows/clickbank', (req: Request, res: Response) => {
+  console.log('✅ ClickBank base endpoint called');
+  res.json({ 
+    message: 'ClickBank API endpoints are available',
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      test: '/api/workflows/clickbank/test',
+      endpoints: '/api/workflows/clickbank/endpoints',
+      orders: '/api/workflows/clickbank/orders',
+      stats: '/api/workflows/clickbank/stats'
+    }
+  });
+});
+
+// Carica il controller ClickBank e registra le route
+try {
+  const { clickbankController } = require('./controllers/clickbankController');
+  console.log('✅ ClickBank controller loaded');
+  
+  app.get('/api/workflows/clickbank/test', clickbankController.testConnection);
+  app.get('/api/workflows/clickbank/endpoints', clickbankController.testEndpoints);
+  app.get('/api/workflows/clickbank/orders', clickbankController.getOrders);
+  app.get('/api/workflows/clickbank/stats', clickbankController.getStats);
+  
+  console.log('✅ All ClickBank routes registered directly');
+} catch (error) {
+  console.error('❌ Error loading ClickBank controller:', error);
+  console.error('Error details:', error instanceof Error ? error.stack : error);
+  
+  // Fallback endpoints
+  app.get('/api/workflows/clickbank/test', (req: Request, res: Response) => {
+    res.status(500).json({
+      error: 'ClickBank controller not loaded',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      hint: 'Check server logs for details',
+      timestamp: new Date().toISOString()
+    });
+  });
 }
 
 app.use('/api/product-candidates', productCandidatesRouter);
